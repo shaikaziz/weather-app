@@ -37,7 +37,7 @@ app.get('/weather',(req,res)=> {
     if(!req.query.address){
         return res.send('No place given')
     }
-    geocode.geocode( req.query.address, (error, data)=>{
+    geocode.geocode( req.query.address, (error, data={})=>{
 
         if(error){
             return res.send('No location in geocode')

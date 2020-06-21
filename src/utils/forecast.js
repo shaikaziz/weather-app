@@ -7,6 +7,9 @@ const forecast=(lattitude,longitude,callback)=> {
         if(error){
             callback('Page is wrong',{lattitude:undefined, longitude:undefined})
         }
+        else if(!response.body.weather[0].description){
+            callback('no location there',{lattitude:undefined, longitude:undefined})
+        }
         else {
             const data=response.body.weather[0].description
             callback(undefined, data)
