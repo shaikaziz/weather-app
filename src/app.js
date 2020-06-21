@@ -1,7 +1,8 @@
 const path=require('path')
 const express=require('express')
 const hbs=require('hbs')
-// const hbs = require('hbs')
+const geocode=require('./utils/geocode')
+const forecast=require('./utils/forecast')
 
 //all paths
 const app=express()
@@ -31,16 +32,28 @@ app.get('/about',(req,res)=>{
     })
 })
 
-//json
-app.get('/products',(req,res)=>{
-    if(!req.query.search)
-       return res.send({
-            error:'give something'
-        })
-    res.send({
-        area:'china',
-        search:req.query.search
-    })
+//json wweather object
+app.get('/weather',(req,res)=> {
+    if(!req.query.address){
+        return res.send('No place given')
+    }
+    geocode.geocode( req.query.address, (error, data)=>{
+
+        if(error){
+            return res.send('No location in geocode')
+        }
+        forecast.forecast( data.lattitude, data.longitude, (error, forecastdata)=>{
+            if(error){
+                return res.send('error in forecast')
+            }
+            res.send({
+                location: data.location,
+                answer:forecastdata
+            })
+        } )
+
+    } )
+
 })
 
 
@@ -52,10 +65,6 @@ app.get('/help',(req,res)=>{
     })
 })
 
-//weather
-app.get('/weather',(req,res)=>{
-    res.send('This is the weather');
-})
 
 //help error
 app.get('/help/*',(req,res)=>{
