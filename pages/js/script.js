@@ -13,7 +13,7 @@ weather.addEventListener('submit',(e) => {
     weathermessage2.textContent=''
 
     //fetch address and passing in arguments
-fetch('http://localhost:3000/weather?address='+address1).then((response) =>{
+fetch('/weather?address='+address1).then((response) =>{
     response.json().then( (data)=>{
         if(data.error){
             weathermessage1.textContent=data.error

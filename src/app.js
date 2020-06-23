@@ -6,6 +6,7 @@ const forecast=require('./utils/forecast')
 
 //all paths
 const app=express()
+const port=process.env.PORT || 3000
 const staticpath=path.join(__dirname,'../pages')
 const viewspath=path.join(__dirname,'../templates/views')
 const partialpath=path.join(__dirname,'../templates/partial')
@@ -84,7 +85,7 @@ app.get('/*',(req,res)=>{
 })
 
 //starting server
-app.listen(3000,()=>{
+app.listen(port,()=>{
     console.log('server started');
     
 })
